@@ -1,406 +1,12 @@
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finance Vision Ultimate Pro</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-*{
-font-family:'Plus Jakarta Sans',sans-serif;
-}
-
-body{
-background:#090d16;
-color:white;
-}
-
-.card{
-background:#131926;
-border:1px solid rgba(255,255,255,.05);
-backdrop-filter:blur(12px);
-}
-
-.dropdown{
-display:none;
-}
-
-.dropdown.show{
-display:block;
-animation:fade .25s ease;
-}
-
-.period-grid{
-display:none;
-}
-
-.period-grid.show{
-display:grid;
-animation:fade .25s ease;
-}
-
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(-8px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-.arrow{
-transition:.3s;
-}
-
-.arrow.rotate{
-transform:rotate(180deg);
-}
-
-input{
-outline:none;
-}
-</style>
-
-</head>
-
-<body class="min-h-screen pb-24">
-
-<div class="max-w-6xl mx-auto p-4 lg:p-8">
-
-<!-- HEADER -->
-
-<div class="card rounded-[32px] p-5 mb-6">
-
-<div class="flex justify-between items-center gap-5 flex-wrap">
-
-<div>
-<p class="uppercase tracking-[5px] text-emerald-400 text-[10px] font-bold">
-FINANCE VISION
-</p>
-
-<h1 class="text-2xl lg:text-3xl font-black mt-2">
-Dashboard Financiero
-</h1>
-</div>
-
-<div class="text-right">
-
-<p class="text-slate-400 text-[10px] uppercase">
-TOTAL GENERAL
-</p>
-
-<h2 id="totalGeneral"
-class="text-4xl font-black text-emerald-400 mt-2">
-$0
-</h2>
-
-<p id="textoPeriodo"
-class="text-sm text-slate-400 mt-2">
-Total semanal: $0
-</p>
-
-</div>
-
-</div>
-
-<!-- BARRAS -->
-
-<div class="mt-6 space-y-4">
-
-<div>
-
-<div class="flex justify-between text-xs mb-2">
-<span>Total General</span>
-<span id="porcentajeGeneral">0%</span>
-</div>
-
-<div class="w-full bg-slate-900 rounded-full h-4 overflow-hidden">
-<div id="barraGeneral"
-class="h-4 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-500"
-style="width:0%">
-</div>
-</div>
-
-</div>
-
-<div>
-
-<div class="flex justify-between text-xs mb-2">
-<span id="tituloPeriodo">
-Total semanal
-</span>
-
-<span id="porcentajePeriodo">
-0%
-</span>
-</div>
-
-<div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden">
-<div id="barraPeriodo"
-class="h-3 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-400 transition-all duration-500"
-style="width:0%">
-</div>
-</div>
-
-</div>
-
-</div>
-
-<!-- PERIODO -->
-
-<div class="mt-5">
-
-<button onclick="togglePeriodo()"
-class="w-full bg-black/30 border border-slate-700 rounded-2xl p-4 flex justify-between items-center">
-
-<span class="font-semibold">
-📅 Cambiar Periodo
-</span>
-
-<span id="flechaPeriodo" class="arrow">
-▼
-</span>
-
-</button>
-
-<div id="periodoBox"
-class="period-grid mt-3 grid-cols-2 md:grid-cols-4 gap-3">
-
-<button onclick="cambiarPeriodo('semanal')"
-class="bg-slate-800 hover:bg-slate-700 rounded-2xl p-3 font-bold">
-Semanal
-</button>
-
-<button onclick="cambiarPeriodo('mensual')"
-class="bg-slate-800 hover:bg-slate-700 rounded-2xl p-3 font-bold">
-Mensual
-</button>
-
-<button onclick="cambiarPeriodo('trimestral')"
-class="bg-slate-800 hover:bg-slate-700 rounded-2xl p-3 font-bold">
-Trimestral
-</button>
-
-<button onclick="cambiarPeriodo('semestral')"
-class="bg-slate-800 hover:bg-slate-700 rounded-2xl p-3 font-bold">
-Semestral
-</button>
-
-</div>
-
-</div>
-
-<!-- TOTALES -->
-
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-
-<div class="card rounded-[28px] p-5">
-<p class="text-slate-400 text-sm">🏍️ Moto</p>
-<h2 id="motoTotal" class="text-3xl font-black mt-3">$0</h2>
-</div>
-
-<div class="card rounded-[28px] p-5">
-<p class="text-slate-400 text-sm">📦 Ventas</p>
-<h2 id="ventasTotal" class="text-3xl font-black mt-3">$0</h2>
-</div>
-
-<div class="card rounded-[28px] p-5">
-<p class="text-slate-400 text-sm">📈 Trading</p>
-<h2 id="tradingTotal" class="text-3xl font-black mt-3">$0</h2>
-</div>
-
-<div class="card rounded-[28px] p-5">
-<p class="text-slate-400 text-sm">⛽ Gastos</p>
-<h2 id="gastosTotal" class="text-3xl font-black mt-3 text-red-400">$0</h2>
-</div>
-
-</div>
-
-<!-- APPS -->
-
-<div class="space-y-5 mt-6">
-
-<!-- MOTO -->
-
-<div class="card rounded-[30px] overflow-hidden">
-
-<button onclick="toggleDropdown('motoBox')"
-class="w-full flex justify-between items-center p-5">
-
-<div class="text-left">
-<h2 class="text-xl font-bold">🏍️ Apps Moto</h2>
-<p class="text-slate-400 text-sm mt-1">
-Uber • Didi • InDrive
-</p>
-</div>
-
-<span>▼</span>
-
-</button>
-
-<div id="motoBox"
-class="dropdown p-5 border-t border-slate-800">
-
-<div class="grid md:grid-cols-3 gap-4">
-
-<input type="number" id="uber"
-placeholder="Uber"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-<input type="number" id="didi"
-placeholder="Didi"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-<input type="number" id="indrive"
-placeholder="InDrive"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-</div>
-
-<button onclick="guardarMoto()"
-class="w-full mt-5 bg-emerald-500 text-black font-black rounded-2xl p-4">
-Guardar Moto
-</button>
-
-</div>
-
-</div>
-
-<!-- VENTAS -->
-
-<div class="card rounded-[30px] overflow-hidden">
-
-<button onclick="toggleDropdown('ventasBox')"
-class="w-full flex justify-between items-center p-5">
-
-<div class="text-left">
-<h2 class="text-xl font-bold">📦 Ventas Online</h2>
-<p class="text-slate-400 text-sm mt-1">
-Dropi • Master Shop
-</p>
-</div>
-
-<span>▼</span>
-
-</button>
-
-<div id="ventasBox"
-class="dropdown p-5 border-t border-slate-800">
-
-<div class="grid md:grid-cols-2 gap-4">
-
-<input type="number" id="dropi"
-placeholder="Dropi"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-<input type="number" id="mastershop"
-placeholder="Master Shop"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-</div>
-
-<button onclick="guardarVentas()"
-class="w-full mt-5 bg-blue-500 text-white font-black rounded-2xl p-4">
-Guardar Ventas
-</button>
-
-</div>
-
-</div>
-
-<!-- TRADING -->
-
-<div class="card rounded-[30px] overflow-hidden">
-
-<button onclick="toggleDropdown('tradingBox')"
-class="w-full flex justify-between items-center p-5">
-
-<div class="text-left">
-<h2 class="text-xl font-bold">📈 Trading</h2>
-<p class="text-slate-400 text-sm mt-1">
-Ganancias trading
-</p>
-</div>
-
-<span>▼</span>
-
-</button>
-
-<div id="tradingBox"
-class="dropdown p-5 border-t border-slate-800">
-
-<input type="number" id="trading"
-placeholder="Trading"
-class="w-full bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-<button onclick="guardarTrading()"
-class="w-full mt-5 bg-amber-500 text-black font-black rounded-2xl p-4">
-Guardar Trading
-</button>
-
-</div>
-
-</div>
-
-<!-- GASTOS -->
-
-<div class="card rounded-[30px] overflow-hidden">
-
-<button onclick="toggleDropdown('gastosBox')"
-class="w-full flex justify-between items-center p-5">
-
-<div class="text-left">
-<h2 class="text-xl font-bold">⛽ Gastos</h2>
-<p class="text-slate-400 text-sm mt-1">
-Gasolina • Comida
-</p>
-</div>
-
-<span>▼</span>
-
-</button>
-
-<div id="gastosBox"
-class="dropdown p-5 border-t border-slate-800">
-
-<div class="grid md:grid-cols-2 gap-4">
-
-<input type="number" id="gasolina"
-placeholder="Gasolina"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-<input type="number" id="comida"
-placeholder="Comida"
-class="bg-black/30 border border-slate-700 rounded-2xl p-4">
-
-</div>
-
-<button onclick="guardarGastos()"
-class="w-full mt-5 bg-red-500 text-white font-black rounded-2xl p-4">
-Guardar Gastos
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
+/* =========================================================
+   NUEVO SISTEMA PROFESIONAL DE FECHAS + PERIODOS + EDITAR
+   REEMPLAZA TODO TU <script> PRINCIPAL POR ESTE
+========================================================= */
 
 let periodo='semanal';
 
 const metas={
+diario:70000,
 semanal:500000,
 mensual:2000000,
 trimestral:6000000,
@@ -409,6 +15,17 @@ semestral:12000000
 
 let registros=
 JSON.parse(localStorage.getItem('financeVisionFinal')) || [];
+
+document.addEventListener('DOMContentLoaded',()=>{
+
+const hoy=
+new Date().toISOString().split('T')[0];
+
+document.getElementById('fechaSeleccionada').value=hoy;
+
+render();
+
+});
 
 function pesos(valor){
 
@@ -444,11 +61,8 @@ periodo=p;
 document.getElementById('tituloPeriodo')
 .innerText='Total '+p;
 
-document.getElementById('periodoBox')
-.classList.remove('show');
-
-document.getElementById('flechaPeriodo')
-.classList.remove('rotate');
+document.getElementById('textoPeriodo')
+.innerText='Total '+p;
 
 render();
 
@@ -458,10 +72,13 @@ function guardar(tipo,valor){
 
 if(valor<=0)return;
 
+const fechaSeleccionada=
+document.getElementById('fechaSeleccionada').value;
+
 registros.push({
 tipo,
 valor,
-fecha:new Date().toISOString()
+fecha:fechaSeleccionada
 });
 
 localStorage.setItem(
@@ -525,6 +142,71 @@ document.getElementById('comida').value='';
 
 }
 
+function editarDia(){
+
+const fecha=
+document.getElementById('fechaSeleccionada').value;
+
+const datosDia=
+registros.filter(r=>r.fecha===fecha);
+
+let uber=0;
+let didi=0;
+let indrive=0;
+let dropi=0;
+let mastershop=0;
+let trading=0;
+let gasolina=0;
+let comida=0;
+
+datosDia.forEach(r=>{
+
+if(r.tipo==='uber')uber+=r.valor;
+if(r.tipo==='didi')didi+=r.valor;
+if(r.tipo==='indrive')indrive+=r.valor;
+if(r.tipo==='dropi')dropi+=r.valor;
+if(r.tipo==='mastershop')mastershop+=r.valor;
+if(r.tipo==='trading')trading+=r.valor;
+if(r.tipo==='gasolina')gasolina+=r.valor;
+if(r.tipo==='comida')comida+=r.valor;
+
+});
+
+document.getElementById('uber').value=uber || '';
+document.getElementById('didi').value=didi || '';
+document.getElementById('indrive').value=indrive || '';
+
+document.getElementById('dropi').value=dropi || '';
+document.getElementById('mastershop').value=mastershop || '';
+
+document.getElementById('trading').value=trading || '';
+
+document.getElementById('gasolina').value=gasolina || '';
+document.getElementById('comida').value=comida || '';
+
+alert('Datos cargados correctamente');
+
+}
+
+function eliminarDia(){
+
+const fecha=
+document.getElementById('fechaSeleccionada').value;
+
+registros=
+registros.filter(r=>r.fecha!==fecha);
+
+localStorage.setItem(
+'financeVisionFinal',
+JSON.stringify(registros)
+);
+
+render();
+
+alert('Día eliminado correctamente');
+
+}
+
 function render(){
 
 let uber=0;
@@ -536,7 +218,48 @@ let trading=0;
 let gasolina=0;
 let comida=0;
 
-registros.forEach(r=>{
+const fechaSeleccionada=
+document.getElementById('fechaSeleccionada')?.value;
+
+const hoy=
+new Date(fechaSeleccionada || new Date());
+
+const registrosFiltrados=
+registros.filter(r=>{
+
+const fechaRegistro=
+new Date(r.fecha);
+
+const diferencia=
+Math.floor(
+(hoy-fechaRegistro)/(1000*60*60*24)
+);
+
+if(periodo==='diario'){
+return diferencia===0;
+}
+
+if(periodo==='semanal'){
+return diferencia<=7;
+}
+
+if(periodo==='mensual'){
+return diferencia<=30;
+}
+
+if(periodo==='trimestral'){
+return diferencia<=90;
+}
+
+if(periodo==='semestral'){
+return diferencia<=180;
+}
+
+return true;
+
+});
+
+registrosFiltrados.forEach(r=>{
 
 if(r.tipo==='uber')uber+=r.valor;
 if(r.tipo==='didi')didi+=r.valor;
@@ -596,30 +319,3 @@ document.getElementById('porcentajePeriodo')
 }
 
 render();
-
-</script>
-<script>
-// Cargar datos guardados al abrir
-window.onload = function() {
-    const campos = document.querySelectorAll('input');
-
-    campos.forEach((campo, index) => {
-        const valorGuardado = localStorage.getItem('campo_' + index);
-
-        if(valorGuardado !== null){
-            campo.value = valorGuardado;
-        }
-    });
-}
-
-// Guardar automáticamente al escribir
-const campos = document.querySelectorAll('input');
-
-campos.forEach((campo, index) => {
-    campo.addEventListener('input', function(){
-        localStorage.setItem('campo_' + index, campo.value);
-    });
-});
-</script>
-</body>
-</html>
