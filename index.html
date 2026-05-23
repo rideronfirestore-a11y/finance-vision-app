@@ -598,6 +598,28 @@ document.getElementById('porcentajePeriodo')
 render();
 
 </script>
+<script>
+// Cargar datos guardados al abrir
+window.onload = function() {
+    const campos = document.querySelectorAll('input');
 
+    campos.forEach((campo, index) => {
+        const valorGuardado = localStorage.getItem('campo_' + index);
+
+        if(valorGuardado !== null){
+            campo.value = valorGuardado;
+        }
+    });
+}
+
+// Guardar automáticamente al escribir
+const campos = document.querySelectorAll('input');
+
+campos.forEach((campo, index) => {
+    campo.addEventListener('input', function(){
+        localStorage.setItem('campo_' + index, campo.value);
+    });
+});
+</script>
 </body>
 </html>
